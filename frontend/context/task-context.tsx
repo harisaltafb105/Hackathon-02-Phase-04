@@ -370,6 +370,16 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [fetchTasks])
 
+  // Listen for task modifications from chatbot
+  useEffect(() => {
+    const handleChatTaskModification = () => {
+      fetchTasks()
+    }
+
+    window.addEventListener('tasks-modified-by-chat', handleChatTaskModification)
+    return () => window.removeEventListener('tasks-modified-by-chat', handleChatTaskModification)
+  }, [fetchTasks])
+
   return (
     <TaskContext.Provider value={{
       state,

@@ -61,3 +61,15 @@ build/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Kubernetes/Helm
+*.tgz
+values-secrets.yaml
+*-secrets.yaml
+kubeconfig*
+*.key
+*.crt
+secrets/
+
+# Docker
+*.log

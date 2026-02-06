@@ -263,6 +263,15 @@ export function ChatProvider({ children }: { children: ReactNode }) {
             assistantMessage,
           },
         })
+
+        // Notify task context to refresh if any task-modifying tool calls succeeded
+        const taskModifyingTools = ['add_task', 'update_task', 'delete_task', 'complete_task']
+        const hasTaskModification = result.data.toolCalls?.some(
+          (tc) => taskModifyingTools.includes(tc.tool) && tc.success
+        )
+        if (hasTaskModification) {
+          window.dispatchEvent(new CustomEvent('tasks-modified-by-chat'))
+        }
       } else {
         dispatch({
           type: 'SEND_MESSAGE_FAILURE',

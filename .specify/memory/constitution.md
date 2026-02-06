@@ -1,25 +1,24 @@
 <!--
 Sync Impact Report:
-Version change: 1.0.0 → 2.0.0
+Version change: 2.0.0 → 3.0.0
 Modified principles:
-  - Principle I (Spec-Driven Development) - expanded with Phase III compliance
-  - Development Workflow - updated to include Phase III
+  - Development Workflow - expanded to include Phase IV
 Added sections:
-  - Principle VII: Phase III Additive Extension (NON-NEGOTIABLE)
-  - Principle VIII: Architectural Authority (NON-NEGOTIABLE)
-  - Principle IX: Stateless Server Law (NON-NEGOTIABLE)
-  - Principle X: MCP Tool Sovereignty (NON-NEGOTIABLE)
-  - Principle XI: Agent Behavior Constraints (NON-NEGOTIABLE)
-  - Principle XII: Data Integrity & Safety (NON-NEGOTIABLE)
-  - Principle XIII: Final Constitutional Law (NON-NEGOTIABLE)
-  - Phase III Technology Stack
-  - Phase III Agent Roles
-  - Phase III Success Definition
+  - Principle XIV: Infrastructure-Only Phase (NON-NEGOTIABLE)
+  - Principle XV: Spec-Driven Infrastructure (NON-NEGOTIABLE)
+  - Principle XVI: Local-First Cloud-Native (NON-NEGOTIABLE)
+  - Principle XVII: Reproducible Deployment (NON-NEGOTIABLE)
+  - Principle XVIII: AI-Assisted DevOps Sovereignty (NON-NEGOTIABLE)
+  - Principle XIX: Failure Diagnosis Protocol (NON-NEGOTIABLE)
+  - Phase IV Technology Stack
+  - Phase IV Agent Roles
+  - Phase IV Success Definition
+  - Phase IV Explicit Out-of-Scope
 Removed sections: None
 Templates requiring updates:
-  ✅ plan-template.md - Constitution Check references Phase III principles
+  ✅ plan-template.md - Constitution Check references remain valid
   ✅ spec-template.md - Requirements alignment verified
-  ✅ tasks-template.md - Task categorization includes AI layer tasks
+  ✅ tasks-template.md - Task categorization includes infrastructure tasks
 Follow-up TODOs: None
 -->
 
@@ -87,6 +86,7 @@ Project structure separates frontend, backend, and shared specifications with ex
 - No code sharing between frontend and backend except via API contracts in specs
 - Each subdirectory is independently deployable
 - Phase III chatbot logic MUST remain isolated, modular, and detachable
+- Phase IV infrastructure code MUST be separate from application code
 
 **Rationale**: Clear separation of concerns, enables parallel frontend/backend development, explicit contracts prevent implicit coupling, supports independent scaling and deployment.
 
@@ -216,6 +216,91 @@ All data operations MUST be transactional, safe, and non-destructive by default.
 
 This principle supersedes all other guidance. No agent, tool, or process may violate this hierarchy.
 
+### XIV. Infrastructure-Only Phase (NON-NEGOTIABLE)
+
+Phase IV is exclusively a deployment and infrastructure phase. No application logic changes are permitted.
+
+**Rules**:
+- Phase IV MUST NOT introduce new features
+- No frontend or backend business logic changes
+- No database schema or API redesign
+- Existing Phase II functionality MUST remain fully operational
+- Existing Phase III chatbot MUST remain fully operational
+- Infrastructure code MUST be separate from application code
+- All containerization and orchestration is additive only
+
+**Rationale**: Ensures deployment work cannot inadvertently break working application code, maintains separation between application development and infrastructure concerns.
+
+### XV. Spec-Driven Infrastructure (NON-NEGOTIABLE)
+
+All infrastructure decisions MUST follow the spec-driven workflow. No ad-hoc CLI experimentation without specification backing.
+
+**Rules**:
+- All infrastructure follows: spec → plan → tasks → implement
+- Dockerfiles, Helm charts, and K8s manifests MUST be specified before creation
+- No ad-hoc kubectl or docker commands without spec backing
+- Infrastructure changes require spec updates first
+- All deployment configurations MUST be version-controlled
+- Rollback procedures MUST be documented in specs
+
+**Rationale**: Maintains traceability and reproducibility for infrastructure, prevents configuration drift, enables infrastructure as code best practices.
+
+### XVI. Local-First Cloud-Native (NON-NEGOTIABLE)
+
+Phase IV deployment target is local Minikube only. No cloud provider configurations.
+
+**Rules**:
+- Deployment target is Minikube (local Kubernetes)
+- No AWS, GCP, or Azure provider configurations
+- No production deployment assumptions
+- No cloud-specific services (managed databases, load balancers, etc.)
+- All services MUST work with local resources only
+- Ingress configurations MUST be Minikube-compatible
+
+**Rationale**: Ensures consistent local development environment, eliminates cloud vendor lock-in for development, enables offline development and testing.
+
+### XVII. Reproducible Deployment (NON-NEGOTIABLE)
+
+A fresh machine MUST be able to reproduce the deployment using specifications alone. No hidden steps, no manual tweaks.
+
+**Rules**:
+- All deployment steps MUST be documented in specs
+- No manual configuration tweaks allowed
+- Environment setup MUST be fully automated
+- All dependencies MUST be explicitly declared
+- Helm values MUST be sufficient for complete deployment
+- Secrets handling MUST be documented (without exposing actual secrets)
+
+**Rationale**: Ensures any developer can reproduce the deployment, eliminates tribal knowledge, enables CI/CD readiness for future phases.
+
+### XVIII. AI-Assisted DevOps Sovereignty (NON-NEGOTIABLE)
+
+AI DevOps tools (Docker AI, kubectl-ai, kagent) are preferred for infrastructure operations. Manual CLI is fallback only.
+
+**Rules**:
+- Docker AI Agent (Gordon) MUST be preferred for Dockerfile generation and optimization
+- kubectl-ai MUST be used for deployments, scaling, and pod debugging
+- kagent MUST be used for cluster health analysis and resource optimization
+- Manual CLI fallback MUST be explicitly documented when AI tools unavailable
+- All AI tool outputs MUST be validated against specifications
+- AI tools MUST NOT modify application behavior
+
+**Rationale**: Leverages AI assistance for infrastructure optimization, maintains consistency in operations, provides intelligent troubleshooting.
+
+### XIX. Failure Diagnosis Protocol (NON-NEGOTIABLE)
+
+All deployment failures MUST be diagnosed, explained, and fixed with minimal changes. Silent retries and destructive resets are forbidden.
+
+**Rules**:
+- Any failure MUST be diagnosed via kubectl-ai or kagent
+- Root cause MUST be explained before fix is applied
+- Fixes MUST use the smallest possible change
+- Silent retries without explanation are forbidden
+- Destructive resets (delete all, recreate) require explicit justification
+- All failures and resolutions MUST be logged
+
+**Rationale**: Ensures learning from failures, prevents recurring issues, maintains system stability, provides audit trail for troubleshooting.
+
 ## Technology Stack Constraints
 
 ### Frontend Requirements (Phase II)
@@ -262,6 +347,46 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 
 **Justification**: Standardized stack ensures consistent behavior, official SDKs provide stability and support, environment-based secrets enable secure deployment.
 
+### Phase IV Technology Stack (STRICT - NO ALTERNATIVES)
+
+**Containerization**:
+- Docker (Docker Desktop)
+- Docker AI Agent (Gordon) — preferred for Dockerfile generation and optimization
+- Standard Docker CLI — fallback when Gordon unavailable
+
+**Orchestration**:
+- Kubernetes via Minikube (local only)
+- No cloud-managed Kubernetes (EKS, GKE, AKS)
+
+**Packaging**:
+- Helm Charts (required for all deployments)
+- No raw kubectl apply for production-like deployments
+
+**AI-Assisted DevOps**:
+- kubectl-ai (required for deployments, scaling, debugging)
+- kagent (required for cluster health and resource optimization)
+
+**Applications Deployed**:
+- Phase II Backend (FastAPI)
+- Phase II Frontend (Next.js)
+- Phase III MCP Server
+- Phase III AI Agent Service
+
+**Required Environment Variables** (injected via Helm/K8s Secrets):
+- `OPENAI_API_KEY` - OpenAI API authentication
+- `BETTER_AUTH_URL` - Better Auth service URL
+- `BETTER_AUTH_SECRET` - JWT signing secret (shared)
+- `DATABASE_URL` - Neon PostgreSQL connection string
+
+**Constraints**:
+- All documentation and commands MUST reference MCP Server Context 7 documentation
+- No guessing or outdated instructions
+- .env files are NOT committed to version control
+- Secrets MUST be passed via Helm values or Kubernetes secrets
+- Absence of secrets during spec/plan stages MUST NOT break implementation
+
+**Justification**: Local-first approach enables consistent development environments, Helm provides declarative configuration management, AI-assisted tooling optimizes operations.
+
 ### Shared Standards
 
 **Version Control**: Git with conventional commits
@@ -286,12 +411,20 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 4. End-to-end testing of authentication flow
 5. Task CRUD operations frontend + backend
 
-**Phase III: AI-Powered Chatbot** (Current)
+**Phase III: AI-Powered Chatbot** (Complete)
 1. MCP server setup with task-related tools
 2. OpenAI Agent integration via Agents SDK
 3. Chat UI implementation with ChatKit
 4. Conversation persistence and continuity
 5. End-to-end testing of chatbot flows
+
+**Phase IV: Local Kubernetes Deployment** (Current)
+1. Dockerfile creation for all services (via Docker AI/Gordon)
+2. Helm chart generation for Kubernetes packaging
+3. Minikube cluster setup and configuration
+4. Service deployment via kubectl-ai
+5. Cluster health validation via kagent
+6. End-to-end deployment verification
 
 **Workflow Steps**:
 1. Review spec in `specs/features/[feature].md`
@@ -326,12 +459,43 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 - `conversation-context-manager` - Handles conversation continuity
 - `error-translator` - Converts system errors to user-friendly messages
 
+**Agent Roles (Phase IV)**:
+- `phase4-deployment-orchestrator` - Coordinates Phase IV deployment workflow
+- `containerization-docker` - Generates and optimizes Dockerfiles via Docker AI
+- `helm-chart-generator` - Creates Helm charts for Kubernetes packaging
+- `kubectl-ops` - Executes Kubernetes operations via kubectl-ai
+- `kagent` - Analyzes cluster health and provides optimization insights
+- `dev-environment-validator` - Validates local development environment setup
+
 ### Git Workflow
 
 **Branch Strategy**: Feature branches from master
 **Commit Messages**: Conventional commits (feat, fix, docs, refactor, test)
 **PR Requirements**: All tests pass, spec references included in description
 **Code Review**: Automated via Claude Code review agent before merge
+
+## Deployment Architecture (Phase IV)
+
+### Service Topology
+
+Each major component MUST be deployed as a separate Kubernetes Deployment:
+- `frontend` - Next.js application
+- `backend` - FastAPI application
+- `mcp-server` - MCP tool server
+- `ai-agent` - AI agent service
+
+### Service Exposure
+
+- Services MUST be exposed via Kubernetes Services (ClusterIP or NodePort)
+- Ingress MAY be enabled if required (Minikube-compatible)
+- Frontend MUST communicate with backend via internal service DNS
+
+### Environment Configuration
+
+- Environment variables MUST be injected via Helm values
+- Secrets MUST be managed via Kubernetes Secrets
+- No hardcoded configuration in container images
+- ConfigMaps for non-sensitive configuration
 
 ## Security Standards
 
@@ -359,6 +523,13 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 - Database connections use SSL in production
 - AI does not retain user data beyond conversation scope
 
+### Infrastructure Security (Phase IV)
+
+- Kubernetes Secrets for all sensitive values
+- No secrets in Helm values files committed to version control
+- Container images MUST use non-root users where possible
+- Network policies MAY be applied for service isolation
+
 ## Quality Gates
 
 ### Before Implementation
@@ -369,6 +540,7 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 - [ ] User isolation verified in spec
 - [ ] Authentication requirements explicit
 - [ ] Phase III: MCP tool requirements defined (if AI-related)
+- [ ] Phase IV: Deployment architecture specified (if infrastructure-related)
 
 ### During Implementation
 
@@ -378,6 +550,7 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 - [ ] TypeScript types match API contracts
 - [ ] Error handling returns appropriate status codes
 - [ ] Phase III: AI agent uses only defined MCP tools
+- [ ] Phase IV: Dockerfiles and Helm charts follow specifications
 
 ### Before Deployment
 
@@ -387,6 +560,8 @@ This principle supersedes all other guidance. No agent, tool, or process may vio
 - [ ] Environment variables documented
 - [ ] Docker Compose setup tested locally
 - [ ] Phase III: Chatbot degradation tested (backend unavailable scenario)
+- [ ] Phase IV: All pods healthy and restart-safe
+- [ ] Phase IV: Deployment reproducible from specs alone
 
 ## Phase III Success Definition
 
@@ -398,6 +573,28 @@ Phase III is successful if:
 - AI acts as an assistant, not a system owner
 - Cross-user data isolation is maintained
 - System supports horizontal scaling and multiple concurrent users
+
+## Phase IV Success Definition
+
+Phase IV is successful if:
+- All services run on Minikube without errors
+- Pods are healthy and restart-safe
+- Frontend communicates with backend and AI chatbot
+- MCP tools function correctly via deployed services
+- Deployment is reproducible from specs alone
+- No manual steps are required post-implementation
+- Phase II and Phase III functionality remain fully operational
+
+## Phase IV Explicit Out-of-Scope
+
+The following are explicitly NOT part of Phase IV:
+- Cloud hosting (AWS, GCP, Azure)
+- CI/CD pipelines
+- Production hardening
+- Monitoring stacks (Prometheus, Grafana)
+- Log aggregation systems
+- Service mesh implementations
+- Multi-cluster deployments
 
 ## Governance
 
@@ -426,4 +623,4 @@ This constitution is the supreme authority for all development practices. Any de
 - Agents cite constitution section when rejecting non-compliant requests
 - User can override principles only by amending constitution first
 
-**Version**: 2.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-14
+**Version**: 3.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-02-03
